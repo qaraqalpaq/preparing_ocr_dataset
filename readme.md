@@ -26,8 +26,10 @@ This document outlines the necessary components and formats for creating a datas
 
 ```
 Meniń atym Jánibek.
-Ózbekstan - meniń vatanym.
-Búgın hawaj ayaz.
+Búgın hawa ayaz.
+Adamlar paydalanatuǵın gezlemler tiykarınan tábiyǵıy hám ximiyalıq
+talshıqlardan alınadı.
+Men Qaraqalpaqstanda jasayman
 ```
 
 ## Wordlist (`.wordlist`)
@@ -49,6 +51,7 @@ olar
 kitap
 qalam
 mektep
+adamlar
 ```
 
 ## Unicharset (`.unicharset`)
