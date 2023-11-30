@@ -308,6 +308,51 @@ lstmtraining --stop_training \
 
 You should now have a functional `.traineddata` file for Karakalpak language, ready for use with Tesseract OCR.
 
+# Using ready model
+```
+export TESSDATA_PREFIX=./finish/
+tesseract image.jpg output -l kaa
+
+```
+or 
+
+[![Open Instruction TesseractRestAPI]()](https://github.com/qaraqalpaq/TesseractOCR-API/blob/main/README.MD)
+
+Clone rest api service for converting image/pdf to text
+```
+git clone https://github.com/qaraqalpaq/TesseractOCR-API.git tesseract-api
+cd tesseract-api
+```
+
+Install docker-compose and run project
+```
+apt install docker-compose
+docker-compose up -d
+```
+Request:
+```
+POST /upload
+Form-data:
+  file: [file content]
+  language: 'eng' (optional)
+```
+
+Response:
+```json
+{
+  "message": "File received",
+  "task_id": "task-uuid",
+  "file_uuid": "file-uuid"
+}
+```
+
+### Downloading Processed Text File
+
+Request:
+```
+GET /download/file-uuid.txt
+```
+
 ## Notes
 
 - Ensure accuracy in paths and filenames.
