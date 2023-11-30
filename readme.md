@@ -1,5 +1,6 @@
 
 # Adding Karakalpak Language to Tesseract OCR
+
 ---
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/gist/davron112/ee9777c2c692d894ec7f6d1f9558539c/training_kaa_latin.ipynb)
 
@@ -7,10 +8,9 @@
 ## Overview
 This guide details the process of adding support for the Karakalpak language to the Tesseract OCR engine. It involves setting up the environment, preparing training data, training the model, and generating the Karakalpak `.traineddata` file.
 
-##First we need to get information about tesseract:
-#STEP-1: Info
+# STEP-1: Info
 
-```
+
 # Dataset Requirements for Tesseract OCR Training
 
 This document outlines the necessary components and formats for creating a dataset for Tesseract OCR training, specifically tailored for the Karakalpak language.
@@ -110,7 +110,7 @@ TimesNewRoman 0 0 0 1 0
 ```
 
 Adjust these examples as needed to fit the specific characteristics of the Karakalpak language.
-```
+
 
 
 #STEP-2: Start
@@ -129,15 +129,19 @@ Mount your Google Drive and navigate to your Tesseract directory:
 ```
 from google.colab import drive
 drive.mount('/content/drive')
+```
 
 # Navigate to Tesseract directory
+
+```
 cd /content/drive/MyDrive/tesseract
 chmod 777 -R /content/drive/MyDrive/tesseract
 ```
 
 ### 2. Install Required Libraries
 
-```bash
+
+```
 sudo apt install tesseract-ocr
 sudo apt-get install tesseract-ocr libtesseract-dev libleptonica-dev pkg-config
 sudo apt-get install libicu-dev libpango1.0-dev libcairo2-dev
@@ -148,7 +152,7 @@ pip install pytesseract
 
 Check the training text file format:
 
-```python
+```
 def check_file_requirements(file_path):
     # Implementation here
 ```
@@ -207,8 +211,6 @@ You should now have a functional `.traineddata` file for Karakalpak language, re
 - Ensure accuracy in paths and filenames.
 - Regularly save progress.
 - Use representative training data for best results.
-```
 
 ---
-
 This markdown file is structured to provide clear instructions and descriptions, making it suitable for users with varying levels of expertise. Remember to replace placeholder paths like `<training_text_path>` with actual paths specific to your setup.
