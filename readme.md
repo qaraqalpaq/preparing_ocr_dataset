@@ -140,7 +140,8 @@ drive.mount('/content/drive')
 # Navigate to Tesseract directory
 
 ```
-cd /content/drive/MyDrive/tesseract
+cd /content/drive/MyDrive
+git clone https://github.com/qaraqalpaq/preparing_ocr_dataset.git tesseract
 chmod 777 -R /content/drive/MyDrive/tesseract
 ```
 
@@ -166,7 +167,7 @@ def check_file_requirements(file_path):
 Generate training images:
 
 ```bash
-text2image --text=<training_text_path> --outputbase=<output_path> --font='Times New Roman' --fonts_dir=<fonts_directory>
+text2image --text=./langdata/kaa/kaa.training_text --outputbase=./box-training/kaa --font='Times New Roman' --fonts_dir=./fonts
 ```
 
 ### 4. Training the Model
@@ -174,24 +175,113 @@ text2image --text=<training_text_path> --outputbase=<output_path> --font='Times 
 Begin the training process:
 
 ```bash
-tesseract <tif_file_path> <output_path> --psm 6 lstm.train
+tesseract ./kaa.tif ./lstmf/kaa_model_output --psm 6 lstm.train
+```
+
+Add ready `kaa_model_output.lstmf` file to training_files.txt
+
+```bash
+ls ./lstmf/*.lstmf > ./lstmf/training_files.txt
 ```
 
 ### 5. Additional Training Steps
 
-- Extract unicharset.
-- Create a wordlist.
-- Combine model components.
-- Modify configurations.
-- Generate `.traineddata` file.
+- Extract unicharset
+
+```
+!unicharset_extractor --output_unicharset ./langdata/kaa/kaa.unicharset ./box-training/kaa.box
+```
+
+- Create a `wordlist` from `kaa.traintext`
+
+```
+import re
+
+def create_wordlist_from_train_text(input_path, output_path):
+    with open(input_path, 'r', encoding='utf-8') as file:
+        text = file.read()
+
+    # Apply your regex transformations here
+    # Add your transformations as shown in the previous example
+
+    # Split text into words and remove duplicates
+    words = set(re.findall(r'\b[a-zA-ZÁáÚúÓóÍıǴǵÚúŃńÓó]+\b', text))
+
+    # Write the unique words to the output file
+    with open(output_path, 'w', encoding='utf-8') as file:
+        for word in sorted(words):
+            file.write(word + '\n')
+
+# Example usage
+train_text_path = './langdata/kaa/kaa.training_text'
+wordlist_output_path = './langdata/kaa/kaa.wordlist'
+create_wordlist_from_train_text(train_text_path, wordlist_output_path)
+```
+
+Combine model components.
+```
+combine_lang_model \
+  --input_unicharset ./langdata/kaa/kaa.unicharset \
+  --script_dir ./langdata \
+  --words ./langdata/kaa/kaa.wordlist \
+  --numbers ./langdata/kaa/kaa.numbers \
+  --puncs ./langdata/kaa/kaa.punc \
+  --output_dir ./output-combine/ \
+  --lang kaa
+```
+
+- Modify configurations if needed.
+
+```
+combine_tessdata -o ./output-combine/kaa/kaa.traineddata \
+  ./langdata/kaa/kaa.unicharset
+```
+
+- Extract `.lstm` from english model or old trained model
+  ```
+  combine_tessdata -e ./eng-model/eng.traineddata ./eng-model/extract_eng/eng.lstm
+
+  ```
+  
+  or
+  
+  ```
+  combine_tessdata -e ./finish/kaa.traineddata ./eng-model/extract_kaa/kaa.lstm
+  ```
 
 ### 6. Fine-tuning and Evaluating the Model
 
-Fine-tune the model:
+- Starting LSTM Training for a New Language using an English Model
+  ```bash
+  lstmtraining \
+  --continue_from ./eng-model/extract-eng/eng.lstm \
+  --model_output ./trained_models/kaa \
+  --traineddata ./output-combine/kaa/kaa.traineddata \
+  --train_listfile ./lstmf/training_files.txt \
+  --max_iterations 1000
+  ```
 
-```bash
-lstmtraining --continue_from <checkpoint_path> --traineddata <traineddata_path> --max_iterations 1000
-```
+- Fine-tuning or Retraining an Existing LSTM Model for a New Language
+    ```bash
+    lstmtraining \
+        --continue_from ./eng-model/extract-kaa/kaa.lstm \
+        --old_traineddata ./finish/kaa.traineddata \
+        --traineddata ./output-combine/kaa/kaa.traineddata \
+        --train_listfile ./lstmf/training_files.txt \
+        --model_output ./trained_models/kaa \
+        --max_iterations 1000
+    ```
+    
+or 
+
+ ```bash
+  lstmtraining \
+  --continue_from ./trained_models/kaa.checkpoint \
+  --model_output ./trained_models/kaa \
+  --traineddata ./output-combine/kaa/kaa.traineddata \
+  --train_listfile ./lstmf/training_files.txt \
+  --max_iterations 1000
+  ```
 
 ### 7. Additional Scripts and Utilities
 
@@ -205,7 +295,10 @@ lstmtraining --continue_from <checkpoint_path> --traineddata <traineddata_path> 
 Convert the checkpoint files into a `.traineddata` file:
 
 ```bash
-lstmtraining --stop_training --continue_from <checkpoint_path> --traineddata <traineddata_path> --model_output <final_traineddata_path>
+lstmtraining --stop_training \
+              --continue_from ./trained_models/kaa.checkpoint \
+              --traineddata ./output-combine/kaa/kaa.traineddata \
+              --model_output ./finish/kaa.traineddata
 ```
 
 ## Conclusion
@@ -217,6 +310,3 @@ You should now have a functional `.traineddata` file for Karakalpak language, re
 - Ensure accuracy in paths and filenames.
 - Regularly save progress.
 - Use representative training data for best results.
-
----
-This markdown file is structured to provide clear instructions and descriptions, making it suitable for users with varying levels of expertise. Remember to replace placeholder paths like `<training_text_path>` with actual paths specific to your setup.
