@@ -23,6 +23,7 @@ This document outlines the necessary components and formats for creating a datas
 - Represents actual language usage, including common phrases and expressions.
 
 ### Example
+
 ```
 Meniń atym Jánibek.
 Ózbekstan - meniń vatanym.
@@ -37,16 +38,17 @@ Búgın hawaj ayaz.
 - Special focus on words with unique Karakalpak characters.
 
 ### Example
+
 ```
 men
 sen
 ol
 biz
-siler
+sizler
 olar
 kitap
 qalam
-mekdep
+mektep
 ```
 
 ## Unicharset (`.unicharset`)
@@ -56,6 +58,7 @@ mekdep
 - Each line represents a character and its properties.
 
 ### Example
+
 ```
 a 0 Common 0
 b 1 Common 0
@@ -70,6 +73,7 @@ b 1 Common 0
 - Helps Tesseract understand potentially confusing character sequences.
 
 ### Example
+
 ```
 1    sh    s h    0
 ```
@@ -82,6 +86,7 @@ b 1 Common 0
 - Tailored to the Karakalpak language.
 
 ### Example
+
 ```
 tessedit_char_whitelist 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÁǴÍŃÓÚShCh
 ```
@@ -104,6 +109,7 @@ tessedit_char_whitelist 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÁǴÍŃÓÚShCh
 - Includes font name, styles (italic, bold, etc.).
 
 ### Example
+
 ```
 Arial 0 0 0 0 0
 TimesNewRoman 0 0 0 1 0
