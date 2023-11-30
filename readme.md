@@ -7,6 +7,114 @@
 ## Overview
 This guide details the process of adding support for the Karakalpak language to the Tesseract OCR engine. It involves setting up the environment, preparing training data, training the model, and generating the Karakalpak `.traineddata` file.
 
+##First we need to get information about tesseract:
+#STEP-1: Info
+
+```
+# Dataset Requirements for Tesseract OCR Training
+
+This document outlines the necessary components and formats for creating a dataset for Tesseract OCR training, specifically tailored for the Karakalpak language.
+
+## Training Text (`.training_text`)
+
+### Requirements
+- Large, diverse set of sentences or phrases in Karakalpak.
+- Covers a wide range of vocabulary and sentence structures.
+- Represents actual language usage, including common phrases and expressions.
+
+### Example
+```
+Meniń atym Jánibek.
+Ózbekstan - meniń vatanym.
+Búgın hawaj ayaz.
+```
+
+## Wordlist (`.wordlist`)
+
+### Requirements
+- List of words in Karakalpak, one per line.
+- Includes a comprehensive range of commonly used words.
+- Special focus on words with unique Karakalpak characters.
+
+### Example
+```
+men
+sen
+ol
+biz
+siler
+olar
+kitap
+qalam
+mekdep
+```
+
+## Unicharset (`.unicharset`)
+
+### Requirements
+- Lists all unique characters found in the training text.
+- Each line represents a character and its properties.
+
+### Example
+```
+a 0 Common 0
+b 1 Common 0
+Á 2 Latin 1
+...
+```
+
+## Unicharambigs (`.unicharambigs`)
+
+### Requirements
+- Specifies ambiguities in character recognition.
+- Helps Tesseract understand potentially confusing character sequences.
+
+### Example
+```
+1    sh    s h    0
+```
+
+## Config Files
+
+### Requirements
+- Contain settings and parameters for Tesseract training.
+- Include language-specific configurations.
+- Tailored to the Karakalpak language.
+
+### Example
+```
+tessedit_char_whitelist 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÁǴÍŃÓÚShCh
+```
+
+## Box/Tiff Files for Training
+
+### Requirements
+- Box files map text regions in an image.
+- Tiff files are corresponding image files.
+- Both should be accurately aligned.
+
+### Example
+- `image.tif` - Image file.
+- `image.box` - Corresponding box file.
+
+## Font Properties File (`.font_properties`)
+
+### Requirements
+- Information about fonts used in training.
+- Includes font name, styles (italic, bold, etc.).
+
+### Example
+```
+Arial 0 0 0 0 0
+TimesNewRoman 0 0 0 1 0
+```
+
+Adjust these examples as needed to fit the specific characteristics of the Karakalpak language.
+```
+
+
+#STEP-2: Start
+
 ## Prerequisites
 - Google Colab or a similar environment.
 - Basic Python programming and command-line knowledge.
