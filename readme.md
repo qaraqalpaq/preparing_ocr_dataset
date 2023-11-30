@@ -316,7 +316,7 @@ tesseract image.jpg output -l kaa
 ```
 or 
 
-[![Open Instruction TesseractRestAPI]()](https://github.com/qaraqalpaq/TesseractOCR-API/blob/main/README.MD)
+[![Open Instruction TesseractRestAPI]](https://github.com/qaraqalpaq/TesseractOCR-API/blob/main/README.MD)
 
 Clone rest api service for converting image/pdf to text
 ```
@@ -325,16 +325,19 @@ cd tesseract-api
 ```
 
 Install docker-compose and run project
+- For more information about Docker Compose, refer to the [official Docker Compose documentation](https://docs.docker.com/compose/).
 ```
-apt install docker-compose
+sudo apt update
+sudo apt install docker-compose
 docker-compose up -d
 ```
-Request:
+
+Request :
 ```
-POST /upload
+POST http://localhost:3002/upload
 Form-data:
   file: [file content]
-  language: 'eng' (optional)
+  language: 'kaa'
 ```
 
 Response:
