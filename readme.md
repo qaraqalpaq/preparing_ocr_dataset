@@ -140,9 +140,9 @@ drive.mount('/content/drive')
 # Navigate to Tesseract directory
 
 ```
-cd /content/drive/MyDrive
 git clone https://github.com/qaraqalpaq/preparing_ocr_dataset.git tesseract
 chmod 777 -R /content/drive/MyDrive/tesseract
+cd /content/drive/MyDrive/tesseract
 ```
 
 ### 2. Install Required Libraries
