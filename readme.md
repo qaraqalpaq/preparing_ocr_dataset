@@ -122,7 +122,7 @@ Adjust these examples as needed to fit the specific characteristics of the Karak
 
 
 
-#STEP-2: Start
+# STEP-2: Start
 
 ## Prerequisites
 - Google Colab or a similar environment.
