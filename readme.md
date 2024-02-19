@@ -25,7 +25,7 @@ This document outlines the necessary components and formats for creating a datas
 ### Example
 
 ```
-Meniń atym Jánibek.
+Meniń atım Davron.
 Búgın hawa ayaz.
 Adamlar paydalanatuǵın gezlemler tiykarınan tábiyǵıy hám ximiyalıq
 talshıqlardan alınadı.
